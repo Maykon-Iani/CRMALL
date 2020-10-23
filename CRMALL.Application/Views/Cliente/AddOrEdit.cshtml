@@ -41,8 +41,10 @@
                                 <div class="col-4">
                                     <div class="form-group">
                                         <label asp-for="DataNascimento"></label>
-                                        <input asp-for="DataNascimento" type="date" class="form-control form-control-sm" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask />
-                                        <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                                        <input asp-for="DataNascimento" type="date" class="form-control form-control-sm" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask required/>
+                                        <div class="invalid-feedback">
+                                            Por favor informe a data de nascimento.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -50,12 +52,13 @@
                             <div class="col-3">
                                 <div class="form-group">
                                     <label asp-for="Sexo"></label>
-                                    <select asp-for="Sexo" class="form-control form-control-sm">
-                                        <option selected value="0">Selecione</option>
+                                    <select asp-for="Sexo" class="form-control form-control-sm" required>
                                         <option value="1">Masculino</option>
                                         <option value="2">Feminino</option>
                                     </select>
-                                    <span asp-validation-for="Sexo" class="text-danger"></span>
+                                    <div class="invalid-feedback">
+                                        Por favor informe o sexo.
+                                    </div>
                                 </div>
                             </div>
                         </div>

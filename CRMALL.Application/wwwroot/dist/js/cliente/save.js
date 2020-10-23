@@ -3,19 +3,22 @@ $(document).ready(function () {
 
     bootstrapTabControl();
 
+    var id = $('#Id').val();
+    if (id == 0) {
+        $('#DataNascimento').val("");
+    }
+
     $('#frm-cliente').submit(function (event) {
         event.preventDefault();
-       
+
         var form = $("#frm-cliente")
 
-        if ($('#Nome').val() === "") {
-
-            if (form[0].checkValidity() === false) {
-                event.preventDefault()
-                event.stopPropagation()
-                form.addClass('was-validated');
-            }
-        } else {    
+        if (form[0].checkValidity() === false) {
+            event.preventDefault()
+            event.stopPropagation()
+            form.addClass('was-validated');
+        }
+        else {
             $('#carregando').show();
             $.ajax({
                 url: "/Cliente/AddOrEdit",
@@ -24,8 +27,8 @@ $(document).ready(function () {
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                 success: response => {
                     toastr.options.timeOut = 500;
-                    toastr.options.onHidden = function () { window.location.href = response.url; }                   
-                    toastr.success('Registro salvo com sucesso!');                    
+                    toastr.options.onHidden = function () { window.location.href = response.url; }
+                    toastr.success('Registro salvo com sucesso!');
                 },
                 error: err => {
                     toastr.error('Não foi possível salvar o registro.');
