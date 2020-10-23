@@ -1,0 +1,148 @@
+﻿@using CRMALL.Domain.Utils.Pagination;
+@model PaginatedList<CRMALL.Domain.Entities.Cliente>
+
+@section Scripts {
+    <script src="~/dist/js/cliente/index.js" asp-append-version="true"></script>
+}
+
+<section role="form" class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 class="card-title">Listar clientes</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row margin-bottom-15px">
+                        <div class="col-lg-3 pull-left text-left">
+                            <form asp-action="Index" method="get" role="search">
+                                <div class="input-group input-group-sm">
+                                    <input placeholder="Buscar por nome" class="form-control form-control-navbar" name="SearchString" value="@ViewData["currentFilter"]" />
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-9 pull-right text-right">
+                            <div class="text-center-xs margin-bottom-15px-xs">
+                                <a asp-action="AddOrEdit" class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar cliente</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table table-striped table-hover table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    Nome
+                                </th>
+                                <th scope="col">
+                                    Sexo
+                                </th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        @if (Model.Count >= 1)
+                        {
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Nome)
+                                        </td>
+
+
+                                        @if (item.Sexo == 1)
+                                        {
+                                            <td>
+                                                Masculino
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                Feminino
+                                            </td>
+                                        }
+
+                                        <td class="project-actions text-center">
+                                            <a class="btn btn-warning btn-xs" asp-controller="Cliente" asp-action="AddOrEdit" asp-route-id="@item.Id"><i class="far fa-edit btn-edit"></i></a>
+                                            <a data-message="@(item.Nome)" class="btn btn-danger btn-xs btn-delete" asp-controller="Cliente" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        }
+
+                        @if (Model.Count <= 0)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td colspan="8" class="text-center">Nenhum cliente cadastrado.</td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+
+                    @if (Model.TotalPages > 1)
+                    {
+                        <div class="pull-right">
+                            <div class="dataTables_paginate paging_bootstrap">
+                                <ul class="pagination">
+
+                                    @if (Model.HasPreviousPage)
+                                    {
+                                        <li class="page-item">
+                                            <a asp-page="/pagination" asp-route-currentpage="@(Model.PageIndex - 1)" class="page-link">← Anterior</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item disabled">
+                                            <a class="page-link">
+                                                ← Anterior
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @for (var i = 1; i <= Model.TotalPages; i++)
+                                    {
+                                        <li class="@(i == Model.PageIndex ? "active" : "")">
+                                            <a asp-page="/pagination" asp-route-currentpage="@i">@i</a>
+                                        </li>
+                                    }
+
+
+                                    @if (Model.HasNextPage)
+                                    {
+                                        <li class="page-item">
+                                            <a asp-page="/pagination" asp-route-currentpage="@(Model.PageIndex + 1)" class="page-link">Próximo →</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item disabled">
+                                            <a class="page-link">
+                                                Próximo →
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
